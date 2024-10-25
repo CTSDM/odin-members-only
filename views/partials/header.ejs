@@ -1,0 +1,9 @@
+<header>
+    <% if (locals.user === undefined) { %>
+    <a href="/login">Already a member?</a>
+    <a href="/sign-up">Become a member</a>
+    <% } else { %>
+    <a href="/logout">Log out</a>
+    <% } %>
+    <h1>SOME PLACEHOLDER TEXT GOES IN HERE!</h1>
+</header>

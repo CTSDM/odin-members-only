@@ -1,0 +1,23 @@
+<%- include('../partials/_head.ejs') %> <%- include('../partials/header.ejs') %>
+<div class="form-signup">
+    <form action="/sign-up" method="POST">
+        <div>
+            <label for="firstName">First name: </label>
+            <input type="text" name="fname" id="firstName" placeholder="John" />
+        </div>
+        <div>
+            <label for="lastName">Last name: </label>
+            <input type="text" name="lname" id="lastName" placeholder="Doe" />
+        </div>
+        <div>
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username" />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" />
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<%- include('../partials/_footer.ejs') %>
