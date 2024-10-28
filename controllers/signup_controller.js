@@ -15,13 +15,12 @@ const postCreateUser = [
             username: req.body.username,
             added: Date.now(),
         };
-        bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-            addUserStatus(newUser, req.body.secretCode);
-            if (err) return next(err);
-            else newUser.pw = hashedPassword;
-            await db.createUser(newUser);
+        newUser.pw = await bcrypt.hash(req.body.password, 10);
+        addUserStatus(newUser, req.body.secretCode);
+        await db.createUser(newUser);
+        passport.authenticate("local")(req, res, function () {
+            res.redirect("/");
         });
-        res.redirect("/");
     },
 ];
 
