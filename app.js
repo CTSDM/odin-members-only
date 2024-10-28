@@ -40,6 +40,13 @@ app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
+// Adding the user information on all the views
+// However, a more sensible approach would be instead to pass only some data from the user?
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
+
 // routers
 app.use("/", defaultRouter);
 app.use("/sign-up", signUpRouter);
@@ -66,7 +73,7 @@ passport.use(
             }
             const match = await bcrypt.compare(password, user.password);
             if (!match) {
-                return done(null, false, { messge: "Incorrect password" });
+                return done(null, false, { message: "Incorrect password" });
             }
             return done(null, user);
         } catch (err) {
