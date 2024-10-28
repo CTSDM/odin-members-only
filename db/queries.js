@@ -2,10 +2,17 @@
 const pool = require("./pool.js");
 const { env } = require("../config/config.js");
 
-async function createUser(newUser) {
-    pool.query(
-        `INSERT INTO ${env.database.usersTable} (first_name, last_name, username, password, membership_status) VALUES ($1,$2,$3,$4, false)`,
-        [newUser.fname, newUser.lname, newUser.username, newUser.pw],
+async function createUser(user) {
+    await pool.query(
+        `INSERT INTO ${env.database.usersTable} (first_name, last_name, username, password, membership_status, admin_status) VALUES ($1,$2,$3,$4, $5, $6)`,
+        [
+            user.fname,
+            user.lname,
+            user.username,
+            user.pw,
+            user.member,
+            user.admin,
+        ],
     );
 }
 

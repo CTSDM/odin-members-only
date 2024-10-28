@@ -44,6 +44,9 @@ app.set("view engine", "ejs");
 // However, a more sensible approach would be instead to pass only some data from the user?
 app.use((req, res, next) => {
     res.locals.user = req.user;
+    if (req.session.messages)
+        res.locals.errMsg =
+            req.session.messages[req.session.messages.length - 1];
     next();
 });
 

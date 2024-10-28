@@ -7,7 +7,8 @@ function getLogin(_, res) {
 const postLogin = [
     passport.authenticate("local", {
         successRedirect: "/",
-        failureRedirect: "/",
+        failureRedirect: "/login",
+        failureMessage: true,
     }),
 ];
 

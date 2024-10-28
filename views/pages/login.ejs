@@ -1,4 +1,7 @@
 <%- include('../partials/_head.ejs') %> <%- include('../partials/header.ejs') %>
+<% if(locals.errMsg) { %>
+<div class="wrong-credentials"><%= locals.errMsg %></div>
+<% } %>
 <div class="form-login">
     <form action="/login" method="POST">
         <div>
