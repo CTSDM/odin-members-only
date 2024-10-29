@@ -1,7 +1,9 @@
 <%- include('../partials/_head.ejs') %> <%- include('../partials/header.ejs') %>
 <body>
     <% if(locals.user) { %>
-    <div><%= locals.user %></div>
-    <% } else { %> WELCOME STRANGER! <% } %>
+    <div><%= locals.user.username %></div>
+    <div><a href="/message">Create a new message!</a></div>
+    <%- include('../partials/wall.ejs') %> <% } else { %> WELCOME STRANGER! <% }
+    %>
 </body>
 <%- include('../partials/_footer.ejs') %>

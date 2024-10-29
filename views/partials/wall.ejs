@@ -1,0 +1,16 @@
+<div class="messages">
+    <% if (locals.user) { %>
+    <div><%= locals.user.username %> is member!</div>
+    <% } if (locals.messages) { %>
+    <div class="counter">Number of messages: <%= locals.messages.length %></div>
+    <% locals.messages.forEach((msg,index) => { %>
+    <div class="container">
+        <div class="title"><%= msg.title %></div>
+        <% if(locals.user.membership_status || locals.user.admin_status) { %>
+        <div class="author"><%= msg.username %></div>
+        <div class="date"><%= msg.added_time %></div>
+        <% } %>
+        <div class="content"><%= msg.content %></div>
+    </div>
+    <% })} else { %> THERE ARE NO MESSAGES YET! CREATE ONE! <% } %>
+</div>

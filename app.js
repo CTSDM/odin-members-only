@@ -15,6 +15,7 @@ const pgSession = require("connect-pg-simple")(session);
 const defaultRouter = require("./routes/defaultRouter.js");
 const signUpRouter = require("./routes/signUpRouter.js");
 const loginRouter = require("./routes/loginRouter.js");
+const messageRouter = require("./routes/messageRouter.js");
 
 const PORT = 5000;
 const assetsPath = path.join(__dirname, "public");
@@ -54,13 +55,13 @@ app.use((req, res, next) => {
 app.use("/", defaultRouter);
 app.use("/sign-up", signUpRouter);
 app.use("/login", loginRouter);
+app.use("/message", messageRouter);
 app.get("/logout", (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
         res.redirect("/");
     });
 });
-//app.use("/messages", messagesRouter);
 
 // opening port
 app.listen(PORT, () => console.log(`Server is up on port ${PORT}`));
