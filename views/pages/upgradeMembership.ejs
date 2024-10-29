@@ -1,0 +1,19 @@
+<%- include('../partials/_head.ejs') %> <%- include('../partials/header.ejs') %>
+<% if (locals.messageError) { %>
+<div><%= locals.messageError %></div>
+<% } %>
+<div class="form-signup">
+    <form action="/sign-up/member" method="POST">
+        <div>
+            <label for="code">First name: </label>
+            <input
+                type="text"
+                name="code"
+                id="code"
+                placeholder="secret code"
+            />
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<%- include('../partials/_footer.ejs') %>

@@ -39,4 +39,24 @@ function addUserStatus(user, code) {
     } else if (code === env.memberCode) user.member = true;
 }
 
-module.exports = { getCreateUser, postCreateUser };
+function getMemberStatusPage(_, res) {
+    res.render("./pages/upgradeMembership.ejs");
+}
+
+async function upgradeMemberStatus(req, res) {
+    // we only upgrade from non-member to member
+    // the user can only become admin on the initial sign-up page
+    const memberCode = req.body.code;
+    if (memberCode === env.memberCode) {
+        await db.upgradeMemberStatus(res.locals.user.username);
+        res.redirect("/");
+    } else {
+        res.render("./pages/upgradeMembership.ejs");
+    }
+}
+module.exports = {
+    getCreateUser,
+    postCreateUser,
+    getMemberStatusPage,
+    upgradeMemberStatus,
+};

@@ -55,9 +55,17 @@ async function addMessage(msg) {
     return rows[0];
 }
 
+async function upgradeMemberStatus(username) {
+    await pool.query(
+        `UPDATE ${env.database.usersTable} SET membership_status = TRUE WHERE username = $1`,
+        [username],
+    );
+}
+
 module.exports = {
     createUser,
     getUser,
     addMessage,
     getMessagesWithUsers,
+    upgradeMemberStatus,
 };
