@@ -9,18 +9,24 @@ async function getCreateUser(_, res) {
 
 const postCreateUser = [
     async function (req, res) {
-        const newUser = {
-            fname: req.body.fname,
-            lname: req.body.lname,
-            username: req.body.username,
-            added: Date.now(),
-        };
-        newUser.pw = await bcrypt.hash(req.body.password, 10);
-        addUserStatus(newUser, req.body.secretCode);
-        await db.createUser(newUser);
-        passport.authenticate("local")(req, res, function () {
-            res.redirect("/");
-        });
+        const username = await db.getUser("username", req.body.username);
+        if (username === undefined) {
+            const newUser = {
+                fname: req.body.fname,
+                lname: req.body.lname,
+                username: req.body.username,
+                added: Date.now(),
+            };
+            newUser.pw = await bcrypt.hash(req.body.password, 10);
+            addUserStatus(newUser, req.body.secretCode);
+            await db.createUser(newUser);
+            passport.authenticate("local")(req, res, function () {
+                res.redirect("/");
+            });
+        } else {
+            res.locals.messageError = "Username already in use";
+            res.render("./pages/createUser.ejs");
+        }
     },
 ];
 

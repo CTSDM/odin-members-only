@@ -1,4 +1,7 @@
 <%- include('../partials/_head.ejs') %> <%- include('../partials/header.ejs') %>
+<% if (locals.messageError) { %>
+<div><%= locals.messageError %></div>
+<% } %>
 <div class="form-signup">
     <form action="/sign-up" method="POST">
         <div>
