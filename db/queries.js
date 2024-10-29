@@ -38,7 +38,7 @@ async function getMessagesWithUsers() {
     const messagesTable = env.database.messagesTable;
     const usersTable = env.database.usersTable;
     const { rows } = await pool.query(
-        `SELECT ${messagesTable}.title, ${messagesTable}.content, ${messagesTable}.added_time, ${usersTable}.username FROM ${messagesTable}
+        `SELECT ${messagesTable}.id, ${messagesTable}.title, ${messagesTable}.content, ${messagesTable}.added_time, ${usersTable}.username FROM ${messagesTable}
         JOIN users ON ${usersTable}.id = ${messagesTable}.user_id
         ORDER BY ${messagesTable}.id;`,
     );
@@ -62,10 +62,18 @@ async function upgradeMemberStatus(username) {
     );
 }
 
+async function deleteMessage(messageID) {
+    await pool.query(
+        `DELETE FROM ${env.database.messagesTable} WHERE id = $1`,
+        [messageID],
+    );
+}
+
 module.exports = {
     createUser,
     getUser,
     addMessage,
     getMessagesWithUsers,
     upgradeMemberStatus,
+    deleteMessage,
 };

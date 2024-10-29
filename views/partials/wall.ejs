@@ -3,7 +3,7 @@
     <div><%= locals.user.username %> is loged in!</div>
     <% } if (locals.messages) { %>
     <div class="counter">Number of messages: <%= locals.messages.length %></div>
-    <% locals.messages.forEach((msg,index) => { %>
+    <% locals.messages.forEach((msg) => { %>
     <div class="container">
         <div class="title"><%= msg.title %></div>
         <% if(locals.user.membership_status || locals.user.admin_status) { %>
@@ -11,6 +11,14 @@
         <div class="date"><%= msg.added_time %></div>
         <% } %>
         <div class="content"><%= msg.content %></div>
+        <% if(locals.user.admin_status) { %>
+        <div class="delete">
+            <form action="/message/<%= msg.id %>" method="POST">
+                <button type="submit" value="<%= msg.id %>">
+                    Delete message...
+                </button>
+            </form>
+        </div>
     </div>
-    <% })} else { %> THERE ARE NO MESSAGES YET! CREATE ONE! <% } %>
+    <% }})} else { %> THERE ARE NO MESSAGES YET! CREATE ONE! <% } %>
 </div>

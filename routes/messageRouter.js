@@ -5,5 +5,6 @@ const router = Router();
 
 router.get("/", messageController.printMessageForm);
 router.post("/", messageController.postMessage);
+router.post("/:msgID", messageController.deleteMessage);
 
 module.exports = router;

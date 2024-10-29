@@ -17,4 +17,10 @@ async function postMessage(req, res) {
     res.redirect("/");
 }
 
-module.exports = { printMessageForm, postMessage };
+async function deleteMessage(req, res) {
+    // for now we assume that the data has not been messed up in the client side
+    await db.deleteMessage(req.params.msgID);
+    res.redirect("/");
+}
+
+module.exports = { printMessageForm, postMessage, deleteMessage };
