@@ -1,6 +1,6 @@
 <div class="messages">
     <% if (locals.user) { %>
-    <div><%= locals.user.username %> is member!</div>
+    <div><%= locals.user.username %> is loged in!</div>
     <% } if (locals.messages) { %>
     <div class="counter">Number of messages: <%= locals.messages.length %></div>
     <% locals.messages.forEach((msg,index) => { %>
