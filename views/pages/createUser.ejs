@@ -1,7 +1,11 @@
 <%- include('../partials/_head.ejs') %> <%- include('../partials/header.ejs') %>
-<% if (locals.messageError) { %>
-<div><%= locals.messageError %></div>
-<% } %>
+<% if (locals.messageError) { %> <% if (locals.messageError.validation) { %> <%
+locals.messageError.validation.forEach((err)=> { %>
+<div><%= err.msg %></div>
+<% })} if (locals.messageError.db) { %>
+<div><%= locals.messageError.db %></div>
+<% }}%>
+
 <div class="form-signup">
     <form action="/sign-up" method="POST">
         <div>
@@ -21,8 +25,12 @@
             <input type="password" name="password" id="password" />
         </div>
         <div>
+            <label for="password">Confirm your password</label>
+            <input type="password" name="passwordConfirmation" id="password" />
+        </div>
+        <div>
             <label for="secret-code">Secret code</label>
-            <input type="text" name="secretCode" id="secret-code" />
+            <input type="password" name="secretCode" id="secret-code" />
         </div>
         <button type="submit">Submit</button>
     </form>

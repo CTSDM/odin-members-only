@@ -2,13 +2,23 @@ const { env } = require("../config/config.js");
 const db = require("../db/queries.js");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const validation = require("../middleware/validation.js");
 
 async function getCreateUser(_, res) {
     res.render("../views/pages/createUser.ejs");
 }
 
 const postCreateUser = [
+    validation.validateNewUser,
     async function (req, res) {
+        const errors = validation.validationResult(req);
+        res.locals.messageError = {};
+        if (!errors.isEmpty()) {
+            res.locals.messageError.validation = errors.array();
+            res.status(400);
+            res.render("../views/pages/createUser.ejs");
+            return;
+        }
         const username = await db.getUser("username", req.body.username);
         if (username === undefined) {
             const newUser = {
@@ -24,7 +34,8 @@ const postCreateUser = [
                 res.redirect("/");
             });
         } else {
-            res.locals.messageError = "Username already in use";
+            res.locals.messageError.db = "Username already in use";
+            res.status(400);
             res.render("./pages/createUser.ejs");
         }
     },
