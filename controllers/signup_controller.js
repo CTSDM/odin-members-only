@@ -5,7 +5,7 @@ const passport = require("passport");
 const validation = require("../middleware/validation.js");
 
 async function getCreateUser(_, res) {
-    res.render("../views/pages/createUser.ejs");
+    res.render("../views/pages/createUser.ejs", { env: env });
 }
 
 const postCreateUser = [
@@ -16,7 +16,7 @@ const postCreateUser = [
         if (!errors.isEmpty()) {
             res.locals.messageError.validation = errors.array();
             res.status(400);
-            res.render("../views/pages/createUser.ejs");
+            res.render("../views/pages/createUser.ejs", { env: env });
             return;
         }
         const username = await db.getUser("username", req.body.username);
@@ -36,7 +36,7 @@ const postCreateUser = [
         } else {
             res.locals.messageError.db = "Username already in use";
             res.status(400);
-            res.render("./pages/createUser.ejs");
+            res.render("./pages/createUser.ejs", { env: env });
         }
     },
 ];
