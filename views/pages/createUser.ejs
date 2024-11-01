@@ -76,7 +76,15 @@ locals.messageError.validation.forEach((err)=> { %>
                 minlength="<%= locals.env.userForm.secretCodeMaxLength %>"
             />
         </div>
-        <button type="submit">Submit</button>
+        <button id="button-submit-new-user" type="submit">Submit</button>
     </form>
 </div>
+<script defer>
+    const buttonSubmit = document.querySelector("#button-submit-new-user");
+    const pw = document.querySelector("#password");
+    const pwConfirmation = document.querySelector("#passwordConfirmation");
+    buttonSubmit.addEventListener("click", (e) => {
+        if (pwConfirmation.value !== password.value) e.preventDefault();
+    });
+</script>
 <%- include('../partials/_footer.ejs') %>
