@@ -2,11 +2,6 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const path = require("node:path");
-const bcrypt = require("bcryptjs");
-
-const LocalStrategy = require("passport-local").Strategy;
-const db = require("./db/queries");
-
 const app = express();
 const pool = require("./db/pool.js");
 const pgSession = require("connect-pg-simple")(session);
@@ -22,6 +17,7 @@ const assetsPath = path.join(__dirname, "public");
 
 // we use session and passport before routes
 // we create a database for saving the session in the database
+require("./config/passport.js");
 app.use(
     session({
         secret: "OliveYoung",
@@ -65,36 +61,3 @@ app.get("/logout", (req, res, next) => {
 
 // opening port
 app.listen(PORT, () => console.log(`Server is up on port ${PORT}`));
-
-// stuff with passport
-passport.use(
-    new LocalStrategy(async (username, password, done) => {
-        try {
-            const user = await db.getUser("username", username);
-
-            if (!user) {
-                return done(null, false, { message: "Incorrect username" });
-            }
-            const match = await bcrypt.compare(password, user.password);
-            if (!match) {
-                return done(null, false, { message: "Incorrect password" });
-            }
-            return done(null, user);
-        } catch (err) {
-            return done(err);
-        }
-    }),
-);
-
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await db.getUser("id", id);
-        done(null, user);
-    } catch (err) {
-        done(err);
-    }
-});
